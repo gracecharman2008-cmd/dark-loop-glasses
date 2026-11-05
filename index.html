@@ -6,21 +6,49 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Dark Loop Glasses</title>
 <style>
-  body {
-    background: #080808;
-    color: #ffffff;
-    font-family: Arial, sans-serif;
-    text-align: center;
-    padding: 35px 15px;
-  }
-  h1 { color: #b16cff; font-size: 28px; }
-  p { font-size: 22px; line-height: 1.5; }
+body {
+  background: #080808;
+  color: white;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  padding: 35px 15px;
+}
+h1 { color: #b16cff; }
+button {
+  background: #7436bd;
+  color: white;
+  font-size: 22px;
+  padding: 24px;
+  border: 2px solid #b16cff;
+  border-radius: 18px;
+  margin-top: 30px;
+}
+#status {
+  font-size: 20px;
+  margin-top: 30px;
+}
 </style>
 </head>
 <body>
-  <h1>DARK LOOP</h1>
-  <p>HELLO RICKY.</p>
-  <p>META LEFT THE BACK DOOR OPEN.</p>
-  <p>😈🥽</p>
+<h1>DARK LOOP</h1>
+<p>META LEFT THE BACK DOOR OPEN.</p>
+<button id="talk">🎙️ TALK TO DARK LOOP</button>
+<p id="status">Waiting for input...</p>
+
+<script>
+document.getElementById("talk").onclick = async () => {
+  const status = document.getElementById("status");
+  status.textContent = "Requesting microphone...";
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({
+      audio: true
+    });
+    status.textContent = "MICROPHONE CONNECTED!";
+    stream.getTracks().forEach(track => track.stop());
+  } catch (error) {
+    status.textContent = "Microphone unavailable: " + error.name;
+  }
+};
+</script>
 </body>
 </html>
